@@ -1,0 +1,56 @@
+<header>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <!-- Логотип или название сайта -->
+      <a class="navbar-brand" href="#"><%= t("shared.header.logo_title") %></a>
+
+      <!-- Кнопка для мобильных устройств -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Меню -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <% if signed_in? %>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/work"><%= t('.main_page') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/users"><%= t('.users') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/images"><%= t('.images') %></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/values"><%= t('.ratings') %></a>
+            </li>
+            <!-- <li><%= link_to "Users", '#' %></li> -->
+<!--            <li class="logged nav-item">-->
+              <%#= current_user.email %>
+<!--            </li>-->
+            <%= gravatar_for current_user, style: 'width: 30px; height: 30px;' %>
+            <li>
+              <%= link_to t('.sign_out'), signout_path, method: :delete, class: "nav-link"%>
+            </li>
+          <% else %>
+            <li class="nav-item"> <%= link_to t('.sign_in'), signin_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to t('.sign_up'), signup_path, class: "nav-link" %></li>
+          <% end %>
+
+          <li class="nav-item">
+            <%= link_to image_tag("rus.jpg", alt: "", style: "height: 30px;", title: "Русский"), locale: :ru %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to image_tag("uk.jpg", alt: "", style: "height: 30px", title: "English"), locale: :en %>
+          </li>
+
+          <li class="nav-item">
+              <%= I18n.locale %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

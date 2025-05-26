@@ -1,0 +1,96 @@
+
+.container
+  .row
+    .col-md-3
+      %h2= t('.select_theme')
+      = select_tag :theme, options_from_collection_for_select(@themes, :id, :name), class: 'form-control', id: 'theme-selector'
+    .col-md-9
+      %h2= t('.image')
+      #image-container
+        - if @image
+          = image_tag @image.file, id: "image", class: 'img-responsive', style: 'height:300px;', data: { id: @image.id }
+      %p
+        %strong= t('.your_rating')
+        %span#user-rating
+          = @user_rating || t('.not_rated')
+        %strong= t('.average_rating')
+        %span#average-rating
+          = @average_rating || t('.not_rated')
+      %input{type: "range", min: "0", max: "100", value: "0", class: "form-control", id: "rating-slider"}
+      %button{id: "save-rating", class: "btn btn-primary"}= t('.save')
+      %button{id: "previous-image", class: "btn btn-secondary"}= t('.prev')
+      %button{id: "next-image", class: "btn btn-secondary"}= t('.next')
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    const themeSelector = document.getElementById('theme-selector');
+    const imageContainer = document.getElementById('image-container');
+    const image = document.getElementById('image');
+    const userRating = document.getElementById('user-rating');
+    const averageRating = document.getElementById('average-rating');
+    const ratingSlider = document.getElementById('rating-slider');
+    const saveRatingButton = document.getElementById('save-rating');
+    const previousImageButton = document.getElementById('previous-image');
+    const nextImageButton = document.getElementById('next-image');
+
+    const messages = {
+      notRated: "#{t('.not_rated')}"
+    };
+
+    themeSelector.addEventListener('change', function() {
+      fetch(`/work?theme_id=${this.value}`, {
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          imageContainer.innerHTML = `<img src="${data.image_url}" id="image" class="img-responsive" style='height:300px;'>`;
+          image.dataset.id = data.image_id;
+          userRating.textContent = data.user_rating || messages.notRated;
+          averageRating.textContent = data.average_rating || messages.notRated;
+        });
+    });
+
+    nextImageButton.addEventListener('click', function() {
+      fetch(`/work/next_image?theme_id=${themeSelector.value}&image_id=${image.dataset.id}`)
+        .then(response => response.json())
+        .then(data => {
+          imageContainer.innerHTML = `<img src="${data.image_url}" id="image" class="img-responsive" style='height:300px;'>`;
+          image.dataset.id = data.image_id;
+          userRating.textContent = data.user_rating || messages.notRated;
+          averageRating.textContent = data.average_rating || messages.notRated;
+        });
+    });
+
+    previousImageButton.addEventListener('click', function() {
+      fetch(`/work/previous_image?theme_id=${themeSelector.value}&image_id=${image.dataset.id}`)
+        .then(response => response.json())
+        .then(data => {
+          imageContainer.innerHTML = `<img src="${data.image_url}" id="image" class="img-responsive" style='height:300px;'>`;
+          image.dataset.id = data.image_id;
+          userRating.textContent = data.user_rating || messages.notRated;
+          averageRating.textContent = data.average_rating || messages.notRated;
+        });
+    });
+
+    saveRatingButton.addEventListener('click', function() {
+      fetch('/work/save_rating', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+          image_id: image.dataset.id,
+          value: ratingSlider.value
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        userRating.textContent = data.user_rating;
+        averageRating.textContent = data.average_rating;
+      });
+    });
+  });

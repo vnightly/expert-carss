@@ -1,0 +1,36 @@
+ru:
+  shared:
+    header:
+      logo_title: "Experteese на RoR"
+      home: "Главная"
+      help: "Помощь"
+      sign_in: "Войти"
+      sign_out: "Выйти"
+      person: "Я"
+      profile: "Моя страница"
+      settings: "Настройки"
+      sign_up: "Зарегистрироваться"
+      main_page: "Главная"
+      users: "Пользователи"
+      images: "Картинки"
+      ratings: "Оценки"
+  work:
+    index:
+      def_select_theme: "Выберите тему чтобы оставить комментарий"
+      select_theme: "Выбрать тему"
+      your_rating: "Ваша оценка"
+      not_rated: "Не оценено"
+      average_rating: "Средняя оценка"
+      image: "Изображение"
+      next: "Вперед"
+      prev: "Назад"
+      save: "Сохранить оценку"
+  logo_title: "Experteese на RoR"
+  sessions:
+    new:
+      sign_in: "Войти"
+      sign_out: "Выйти"
+      sign_up: "Зарегистрироваться"
+  users:
+    form:
+      create_account: "Создать аккаунт"
