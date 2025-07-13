@@ -20,7 +20,7 @@ class ImagesController < ApplicationController
   end
 
   # POST /images or /images.json
-  def create
+  def createF
     @image = Image.new(image_params)
 
     respond_to do |format|

@@ -5,7 +5,7 @@
   = @image.name
 %p
   %b File:
-  = image_tag("pictures/#{@image.file}", width: '200')
+  = image_tag(asset_path(@image.file), width: '200')
 
 %p
   %b Ave value:

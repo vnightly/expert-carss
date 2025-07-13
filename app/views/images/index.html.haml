@@ -15,7 +15,7 @@
     - @images.each do |image|
       %tr
         %td= image.name
-        %td= image_tag("/#{image.file}", width: '100')
+        %td= image_tag("/assets/#{image.file}", width: '100')
         %td= image.ave_value
         %td= image.theme_id
         %td= link_to 'Show', image

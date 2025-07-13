@@ -1,19 +1,22 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  host: localhost
+  username: railsuser
+  password: 123123
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV['DATABASE_USERNAME'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-  port: <%= "5432" %>
-  host: <%= ENV['DATABASE_HOST'] %>
+  port: 5432
+
 development:
   <<: *default
   database: expert_app_db_development
-  port: 5432
+
 test:
   <<: *default
   database: expert_app_db_test
-  port: 5432
+
 production:
   <<: *default
-  url: <%= ENV['SCHEMATOGO_URL'] %>
+  database: expert_app_db_production
+  username: railsuser
+  password: 123123
